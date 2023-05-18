@@ -1,5 +1,9 @@
 import os 
 import json
+import typer 
+
+app = typer.Typer()
+
 # reading the json files 
 with open('local\data.json', 'r') as jsonfile:
     data = json.load(jsonfile)
@@ -27,9 +31,10 @@ class Manager(Page):
             "@repository"  : self.repository
         }
     
-    def set_up(self,repository,username,password):
+    def set_up(self,repository,project_name,username,password):
         self.data["configured"] = "true"
         self.data["git_repository"] = repository
+        self.data["project_name"] = project_name
         self.data["git_credentials"]["username"] = username
         self.data["git_credentials"]["password"] = password
 
@@ -38,7 +43,7 @@ class Manager(Page):
             old_json_file.write(new_json_file)
         return self
     
-    def manage(self,action):
+    def do(self,action):
         command_list = self.full_command_list[action]
         command_list = open(command_list,'r').readlines()
 
@@ -46,10 +51,23 @@ class Manager(Page):
             for string_to_filter in self.filter_list:
                 command = command.replace(string_to_filter,self.filter_list[string_to_filter])
 
-            os.system('powershell.exe ' + command)
+            print(command)
+            #os.system('powershell.exe ' + command)
 
     def create_page(self,filename):
         self.page = Page(filename)
         self.filter_list["@filename"] = self.page.file_name 
 
 
+@app.command()
+def main():
+    manager = Manager()
+
+@app.command()
+def set_parameters(repo : str,user : str, password: str,project : str):
+    manager.set_up(repo,project,user,password)
+    manager.do("setup git")
+    manager.do("build template")
+
+if __name__ == "__main__":
+    typer.run(main)
