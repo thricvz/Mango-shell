@@ -1,0 +1,4 @@
+remove-item @filename
+git add filename",
+git commit -m "removed @filename page"
+git push 

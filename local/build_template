@@ -1,0 +1,4 @@
+jekyll new @project_name
+git add .
+git commit -m "initial commit"
+git push
