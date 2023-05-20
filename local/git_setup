@@ -1,5 +1,5 @@
 git init
 git config user.name @username && git config user.password @password
 git checkout -b gh-pages 
-git add remote origin @repository
-git git push --set-upstream origin gh-pages
+git remote add origin @repository
+git push --set-upstream origin gh-pages
