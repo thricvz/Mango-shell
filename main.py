@@ -16,6 +16,7 @@ class Manager(Page):
     def __init__(self):
         self.data = data
         self.repository = self.data["git_repository"]
+        self.project_name = self.data["project_name"]
         self.git_user = self.data["git_credentials"]["username"]
         self.git_password = self.data["git_credentials"]["password"]
 
@@ -28,7 +29,8 @@ class Manager(Page):
         self.filter_list = {
             "@username" : self.git_user,
             "@password" : self.git_password,
-            "@repository"  : self.repository
+            "@repository"  : self.repository,
+            "@project_name" : self.project_name
         }
     
     def set_up(self,repository,project_name,username,password):
