@@ -54,8 +54,8 @@ class Manager(Page):
             for string_to_filter in self.filter_list:
                 command = command.replace(string_to_filter,self.filter_list[string_to_filter])
 
-            print(command)
-            #os.system('powershell.exe ' + command)
+            #print(command)
+            os.system('powershell.exe ' + command)
 
     def create_page(self,filename):
         self.page = Page(filename)
