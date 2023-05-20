@@ -19,11 +19,11 @@ class Manager(Page):
         self.git_user = self.data["git_credentials"]["username"]
         self.git_password = self.data["git_credentials"]["password"]
 
-        self.full_command_list = {
-            "setup git" : "local\git_setup",
-            "build template" : "local\build_template",
-            "create page" : "local\create_page.txt",
-            "delete page" : "local\delete_page.txt",
+        self.actions_list = {
+            "setup git" : r"local\git_setup",
+            "build template" : r"local\build_template",
+            "create page" : r"local\create_page.txt",
+            "delete page" : r"local\delete_page.txt",
         }
         self.filter_list = {
             "@username" : self.git_user,
@@ -39,12 +39,13 @@ class Manager(Page):
         self.data["git_credentials"]["password"] = password
 
         new_json_file = json.dumps(self.data,indent=4)
+
         with open('local\data.json', 'w') as old_json_file:
             old_json_file.write(new_json_file)
         return self
     
-    def do(self,action):
-        command_list = self.full_command_list[action]
+    def action(self,action):
+        command_list = self.actions_list[action]
         command_list = open(command_list,'r').readlines()
 
         for command in command_list:
@@ -59,15 +60,19 @@ class Manager(Page):
         self.filter_list["@filename"] = self.page.file_name 
 
 
-@app.command()
-def main():
+@app.callback(invoke_without_command=True)
+def update():
     manager = Manager()
+    
 
 @app.command()
-def set_parameters(repo : str,user : str, password: str,project : str):
+def set_parameters(project : str,repo : str,user : str, password: str):
+    manager = Manager()
     manager.set_up(repo,project,user,password)
-    manager.do("setup git")
-    manager.do("build template")
+    manager.action("setup git")
+    manager.action("build template")
+
 
 if __name__ == "__main__":
-    typer.run(main)
+    app()
+

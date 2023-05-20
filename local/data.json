@@ -1,9 +1,9 @@
 {
     "configured": "false",
-    "project_name" : "",
-    "git_repository": "repo",
+    "project_name": " ",
+    "git_repository": " ",
     "git_credentials": {
-        "username": "user",
-        "password": "gyat"
+        "username": " ",
+        "password": " "
     }
 }
